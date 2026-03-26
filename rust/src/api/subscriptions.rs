@@ -64,12 +64,31 @@ impl<'a> Subscriptions<'a> {
     /// Retrieve detailed information about a subscription including price components and schedules.
     pub async fn subscription_details(
         &self,
-        id: String,
+        subscription_id: String,
     ) -> Result<crate::models::SubscriptionDetails> {
-        crate::request::Request::new(http1::Method::GET, "/api/v1/subscriptions/{id}")
-            .with_path_param("id", id)
-            .execute(self.cfg)
-            .await
+        crate::request::Request::new(
+            http1::Method::GET,
+            "/api/v1/subscriptions/{subscription_id}",
+        )
+        .with_path_param("subscription_id", subscription_id)
+        .execute(self.cfg)
+        .await
+    }
+
+    /// Update subscription settings like payment configuration, billing options, etc.
+    pub async fn update_subscription(
+        &self,
+        subscription_id: String,
+        subscription_update_request: crate::models::SubscriptionUpdateRequest,
+    ) -> Result<crate::models::SubscriptionUpdateResponse> {
+        crate::request::Request::new(
+            http1::Method::PATCH,
+            "/api/v1/subscriptions/{subscription_id}",
+        )
+        .with_path_param("subscription_id", subscription_id)
+        .with_body_param(subscription_update_request)
+        .execute(self.cfg)
+        .await
     }
 
     /// Cancel a subscription either immediately or at the end of the billing period.
