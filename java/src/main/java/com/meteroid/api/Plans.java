@@ -42,8 +42,11 @@ public class Plans {
         if (options.status != null) {
             url.addQueryParameter("status", Utils.serializeQueryParam(options.status));
         }
-        if (options.type != null) {
-            url.addQueryParameter("type", Utils.serializeQueryParam(options.type));
+        if (options.planType != null) {
+            url.addQueryParameter("plan_type", Utils.serializeQueryParam(options.planType));
+        }
+        if (options.orderBy != null) {
+            url.addQueryParameter("order_by", options.orderBy);
         }
         if (options.page != null) {
             url.addQueryParameter("page", Utils.serializeQueryParam(options.page));

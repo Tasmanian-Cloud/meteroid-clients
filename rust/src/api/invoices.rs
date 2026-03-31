@@ -11,6 +11,9 @@ pub struct InvoicesListInvoicesOptions {
 
     pub statuses: Option<Vec<InvoiceStatus>>,
 
+    /// Sort order. Format: `column.direction`. Allowed columns: `invoice_number`, `customer_name`, `amount`, `invoice_date`, `status`, `payment_status`. Direction: `asc` or `desc`. Default: `invoice_date.desc`.
+    pub order_by: Option<String>,
+
     /// Page number (0-indexed)
     pub page: Option<i32>,
 
@@ -36,6 +39,7 @@ impl<'a> Invoices<'a> {
             customer_id,
             subscription_id,
             statuses,
+            order_by,
             page,
             per_page,
         } = options.unwrap_or_default();
@@ -44,6 +48,7 @@ impl<'a> Invoices<'a> {
             .with_optional_query_param("customer_id", customer_id)
             .with_optional_query_param("subscription_id", subscription_id)
             .with_optional_query_param("statuses", statuses)
+            .with_optional_query_param("order_by", order_by)
             .with_optional_query_param("page", page)
             .with_optional_query_param("per_page", per_page)
             .execute(self.cfg)

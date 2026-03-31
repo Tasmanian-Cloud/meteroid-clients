@@ -8,6 +8,9 @@ pub struct ProductsListProductsOptions {
 
     pub search: Option<String>,
 
+    /// Sort order. Format: `column.direction`. Allowed columns: `name`, `created_at`. Direction: `asc` or `desc`. Default: `name.asc`.
+    pub order_by: Option<String>,
+
     /// Page number (0-indexed)
     pub page: Option<i32>,
 
@@ -31,6 +34,7 @@ impl<'a> Products<'a> {
         let ProductsListProductsOptions {
             product_family_id,
             search,
+            order_by,
             page,
             per_page,
         } = options.unwrap_or_default();
@@ -38,6 +42,7 @@ impl<'a> Products<'a> {
         crate::request::Request::new(http1::Method::GET, "/api/v1/products")
             .with_optional_query_param("product_family_id", product_family_id)
             .with_optional_query_param("search", search)
+            .with_optional_query_param("order_by", order_by)
             .with_optional_query_param("page", page)
             .with_optional_query_param("per_page", per_page)
             .execute(self.cfg)

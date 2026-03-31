@@ -11,6 +11,9 @@ pub struct SubscriptionsListSubscriptionsOptions {
 
     pub statuses: Option<Vec<SubscriptionStatusEnum>>,
 
+    /// Sort order. Format: `column.direction`. Allowed columns: `customer_name`, `plan_name`, `mrr_cents`, `billing_start_date`, `end_date`, `status`, `created_at`. Direction: `asc` or `desc`. Default: `created_at.desc`.
+    pub order_by: Option<String>,
+
     /// Page number (0-indexed)
     pub page: Option<i32>,
 
@@ -36,6 +39,7 @@ impl<'a> Subscriptions<'a> {
             customer_id,
             plan_id,
             statuses,
+            order_by,
             page,
             per_page,
         } = options.unwrap_or_default();
@@ -44,6 +48,7 @@ impl<'a> Subscriptions<'a> {
             .with_optional_query_param("customer_id", customer_id)
             .with_optional_query_param("plan_id", plan_id)
             .with_optional_query_param("statuses", statuses)
+            .with_optional_query_param("order_by", order_by)
             .with_optional_query_param("page", page)
             .with_optional_query_param("per_page", per_page)
             .execute(self.cfg)

@@ -8,7 +8,7 @@ pub struct UsageGetCustomerUsageOptions {
 
     pub end_date: String,
 
-    pub metric_id: Option<String>,
+    pub metric_id: Option<BillableMetricId>,
 }
 
 #[derive(Default)]
@@ -17,7 +17,7 @@ pub struct UsageGetSubscriptionUsageOptions {
 
     pub end_date: Option<String>,
 
-    pub metric_id: Option<String>,
+    pub metric_id: Option<BillableMetricId>,
 }
 
 #[derive(Default)]
@@ -26,7 +26,7 @@ pub struct UsageGetUsageSummaryOptions {
 
     pub end_date: String,
 
-    pub metric_id: Option<String>,
+    pub metric_id: Option<BillableMetricId>,
 }
 
 pub struct Usage<'a> {

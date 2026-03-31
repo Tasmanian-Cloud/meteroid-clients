@@ -37,6 +37,9 @@ public class Products {
         if (options.search != null) {
             url.addQueryParameter("search", options.search);
         }
+        if (options.orderBy != null) {
+            url.addQueryParameter("order_by", options.orderBy);
+        }
         if (options.page != null) {
             url.addQueryParameter("page", Utils.serializeQueryParam(options.page));
         }

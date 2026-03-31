@@ -13,7 +13,10 @@ pub struct PlansListPlansOptions {
     pub status: Option<Vec<PlanStatusEnum>>,
 
     /// Filter by plan type (can be repeated)
-    pub r#type: Option<Vec<PlanTypeEnum>>,
+    pub plan_type: Option<Vec<PlanTypeEnum>>,
+
+    /// Sort order. Format: `column.direction`. Allowed columns: `name`, `status`, `plan_type`, `created_at`. Direction: `asc` or `desc`. Default: `created_at.desc`.
+    pub order_by: Option<String>,
 
     /// Page number (0-indexed)
     pub page: Option<i32>,
@@ -54,7 +57,8 @@ impl<'a> Plans<'a> {
             product_family_id,
             search,
             status,
-            r#type,
+            plan_type,
+            order_by,
             page,
             per_page,
         } = options.unwrap_or_default();
@@ -63,7 +67,8 @@ impl<'a> Plans<'a> {
             .with_optional_query_param("product_family_id", product_family_id)
             .with_optional_query_param("search", search)
             .with_optional_query_param("status", status)
-            .with_optional_query_param("type", r#type)
+            .with_optional_query_param("plan_type", plan_type)
+            .with_optional_query_param("order_by", order_by)
             .with_optional_query_param("page", page)
             .with_optional_query_param("per_page", per_page)
             .execute(self.cfg)

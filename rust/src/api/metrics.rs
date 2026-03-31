@@ -6,6 +6,12 @@ use crate::{error::Result, models::*, Configuration};
 pub struct MetricsListMetricsOptions {
     pub product_family_id: Option<ProductFamilyId>,
 
+    /// Search by metric name or code
+    pub search: Option<String>,
+
+    /// Sort order. Format: `column.direction`. Allowed columns: `name`, `code`, `created_at`. Direction: `asc` or `desc`. Default: `name.asc`.
+    pub order_by: Option<String>,
+
     /// Page number (0-indexed)
     pub page: Option<i32>,
 
@@ -28,12 +34,16 @@ impl<'a> Metrics<'a> {
     ) -> Result<crate::models::MetricListResponse> {
         let MetricsListMetricsOptions {
             product_family_id,
+            search,
+            order_by,
             page,
             per_page,
         } = options.unwrap_or_default();
 
         crate::request::Request::new(http1::Method::GET, "/api/v1/metrics")
             .with_optional_query_param("product_family_id", product_family_id)
+            .with_optional_query_param("search", search)
+            .with_optional_query_param("order_by", order_by)
             .with_optional_query_param("page", page)
             .with_optional_query_param("per_page", per_page)
             .execute(self.cfg)

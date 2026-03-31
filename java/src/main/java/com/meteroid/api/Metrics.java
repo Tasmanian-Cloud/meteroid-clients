@@ -34,6 +34,12 @@ public class Metrics {
             url.addQueryParameter(
                     "product_family_id", Utils.serializeQueryParam(options.productFamilyId));
         }
+        if (options.search != null) {
+            url.addQueryParameter("search", options.search);
+        }
+        if (options.orderBy != null) {
+            url.addQueryParameter("order_by", options.orderBy);
+        }
         if (options.page != null) {
             url.addQueryParameter("page", Utils.serializeQueryParam(options.page));
         }

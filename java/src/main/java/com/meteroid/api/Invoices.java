@@ -38,6 +38,9 @@ public class Invoices {
         if (options.statuses != null) {
             url.addQueryParameter("statuses", Utils.serializeQueryParam(options.statuses));
         }
+        if (options.orderBy != null) {
+            url.addQueryParameter("order_by", options.orderBy);
+        }
         if (options.page != null) {
             url.addQueryParameter("page", Utils.serializeQueryParam(options.page));
         }

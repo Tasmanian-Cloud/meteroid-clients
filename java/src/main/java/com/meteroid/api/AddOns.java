@@ -40,6 +40,9 @@ public class AddOns {
             url.addQueryParameter(
                     "include_archived", Utils.serializeQueryParam(options.includeArchived));
         }
+        if (options.orderBy != null) {
+            url.addQueryParameter("order_by", options.orderBy);
+        }
         if (options.page != null) {
             url.addQueryParameter("page", Utils.serializeQueryParam(options.page));
         }

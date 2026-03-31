@@ -19,7 +19,13 @@ public class PlansListPlansOptions {
     List<PlanStatusEnum> status;
 
     /** Filter by plan type (can be repeated) */
-    List<PlanTypeEnum> type;
+    List<PlanTypeEnum> planType;
+
+    /**
+     * Sort order. Format: `column.direction`. Allowed columns: `name`, `status`, `plan_type`,
+     * `created_at`. Direction: `asc` or `desc`. Default: `created_at.desc`.
+     */
+    String orderBy;
 
     /** Page number (0-indexed) */
     Integer page;

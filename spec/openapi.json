@@ -4,8 +4,8 @@
     "title": "meteroid",
     "description": "",
     "license": {
-      "name": "LicenseRef-Proprietary",
-      "identifier": "LicenseRef-Proprietary"
+      "name": "AGPL-3.0-only",
+      "identifier": "AGPL-3.0-only"
     },
     "version": "0.1.0"
   },
@@ -41,6 +41,15 @@
             "required": false,
             "schema": {
               "type": "boolean"
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Sort order. Format: `column.direction`. Allowed columns: `name`, `created_at`. Direction: `asc` or `desc`. Default: `created_at.desc`.",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -558,7 +567,7 @@
             "description": "Batch job ID",
             "required": true,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/BatchJobId"
             }
           }
         ],
@@ -636,7 +645,7 @@
             "description": "Batch job ID",
             "required": true,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/BatchJobId"
             }
           },
           {
@@ -889,7 +898,7 @@
             "description": "Checkout session ID",
             "required": true,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/CheckoutSessionId"
             }
           }
         ],
@@ -966,7 +975,7 @@
             "description": "Checkout session ID",
             "required": true,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/CheckoutSessionId"
             }
           }
         ],
@@ -1039,260 +1048,6 @@
         ]
       }
     },
-    "/api/v1/connected-accounts": {
-      "get": {
-        "tags": [
-          "Connect"
-        ],
-        "summary": "List connected accounts",
-        "description": "List all connected accounts for this platform.",
-        "operationId": "list_connected_accounts",
-        "responses": {
-          "200": {
-            "description": "List of connected accounts",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConnectedAccountsResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer_auth": []
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "Connect"
-        ],
-        "summary": "Create connected account",
-        "description": "Create a new connected account (Express flow). Returns the account\nand an onboarding link for the user to complete setup.",
-        "operationId": "create_connected_account",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateConnectedAccountRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Connected account created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConnectedAccount"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "409": {
-            "description": "Account already exists"
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer_auth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/connected-accounts/{id}": {
-      "get": {
-        "tags": [
-          "Connect"
-        ],
-        "summary": "Get connected account",
-        "description": "Retrieve a connected account by ID.",
-        "operationId": "get_connected_account",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Connected account ID",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/ConnectedAccountId"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Connected account",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConnectedAccount"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not found"
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer_auth": []
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "Connect"
-        ],
-        "summary": "Disconnect account",
-        "description": "Revoke a connected account. All associated tokens are invalidated.",
-        "operationId": "disconnect_account",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Connected account ID",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/ConnectedAccountId"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Disconnected"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not found"
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer_auth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/connected-accounts/{id}/onboarding": {
-      "post": {
-        "tags": [
-          "Connect"
-        ],
-        "summary": "Create onboarding link",
-        "description": "Generate a new onboarding link for a connected account. Any existing\nunused link is invalidated. The link expires after a configured duration.",
-        "operationId": "create_onboarding_link",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Connected account ID",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/ConnectedAccountId"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateOnboardingLinkRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Onboarding link created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OnboardingLinkResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not found"
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer_auth": []
-          }
-        ]
-      }
-    },
     "/api/v1/coupons": {
       "get": {
         "tags": [
@@ -1321,6 +1076,15 @@
                 "INACTIVE",
                 "ARCHIVED"
               ]
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Sort order. Format: `column.direction`. Allowed columns: `code`, `created_at`, `expires_at`. Direction: `asc` or `desc`. Default: `created_at.desc`.",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -1930,6 +1694,15 @@
         "description": "List customers with optional pagination and search filtering.",
         "operationId": "list_customers",
         "parameters": [
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Sort order. Format: `column.direction`. Allowed columns: `name`, `email`, `alias`, `created_at`. Direction: `asc` or `desc`. Default: `created_at.desc`.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "page",
             "in": "query",
@@ -2694,6 +2467,15 @@
             }
           },
           {
+            "name": "order_by",
+            "in": "query",
+            "description": "Sort order. Format: `column.direction`. Allowed columns: `invoice_number`, `customer_name`, `amount`, `invoice_date`, `status`, `payment_status`. Direction: `asc` or `desc`. Default: `invoice_date.desc`.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "page",
             "in": "query",
             "description": "Page number (0-indexed)",
@@ -2940,6 +2722,24 @@
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/ProductFamilyId"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Search by metric name or code",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Sort order. Format: `column.direction`. Allowed columns: `name`, `code`, `created_at`. Direction: `asc` or `desc`. Default: `name.asc`.",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -3342,409 +3142,6 @@
         ]
       }
     },
-    "/api/v1/oauth-apps": {
-      "get": {
-        "tags": [
-          "OAuth Apps"
-        ],
-        "summary": "List OAuth apps",
-        "description": "List all OAuth applications registered for this platform.",
-        "operationId": "list_oauth_apps",
-        "responses": {
-          "200": {
-            "description": "List of OAuth apps",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuthAppsResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer_auth": []
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "OAuth Apps"
-        ],
-        "summary": "Create OAuth app",
-        "description": "Register a new OAuth application. Returns the app with its client secret\n(only shown once).",
-        "operationId": "create_oauth_app",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateOAuthAppRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "OAuth app created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuthAppWithSecret"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "409": {
-            "description": "Duplicate app name"
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer_auth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/oauth-apps/{id}": {
-      "get": {
-        "tags": [
-          "OAuth Apps"
-        ],
-        "summary": "Get OAuth app",
-        "description": "Retrieve an OAuth application by ID.",
-        "operationId": "get_oauth_app",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "OAuth app ID",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/OAuthAppId"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OAuth app",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuthApp"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not found"
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer_auth": []
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "OAuth Apps"
-        ],
-        "summary": "Delete OAuth app",
-        "description": "Delete an OAuth application and revoke all associated tokens.",
-        "operationId": "delete_oauth_app",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "OAuth app ID",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/OAuthAppId"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Deleted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not found"
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer_auth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/oauth-apps/{id}/rotate": {
-      "post": {
-        "tags": [
-          "OAuth Apps"
-        ],
-        "summary": "Rotate client secret",
-        "description": "Generate a new client secret for an OAuth app. The old secret is\nimmediately invalidated.",
-        "operationId": "rotate_client_secret",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "OAuth app ID",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/OAuthAppId"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Rotated secret",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RotatedSecret"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not found"
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer_auth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/oauth/introspect": {
-      "post": {
-        "tags": [
-          "OAuth"
-        ],
-        "summary": "Introspect token",
-        "description": "Token introspection endpoint (RFC 7662). Requires client credentials\nvia HTTP Basic auth.",
-        "operationId": "introspect_endpoint",
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/IntrospectionRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Introspection response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TokenIntrospectionResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid client credentials",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuthErrorResponse"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/oauth/revoke": {
-      "post": {
-        "tags": [
-          "OAuth"
-        ],
-        "summary": "Revoke token",
-        "description": "Token revocation endpoint (RFC 7009). Always returns 200 per spec.\nRequires client credentials via HTTP Basic auth.",
-        "operationId": "revoke_endpoint",
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/RevocationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Token revoked (or was already invalid)"
-          },
-          "401": {
-            "description": "Invalid client credentials",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuthErrorResponse"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/oauth/token": {
-      "post": {
-        "tags": [
-          "OAuth"
-        ],
-        "summary": "Exchange tokens",
-        "description": "OAuth 2.0 token endpoint. Supports two grant types:\n- `authorization_code`: Exchange an authorization code for tokens\n- `refresh_token`: Refresh an access token\n\nAuthenticate via HTTP Basic auth (`client_id:client_secret`) or body parameters.",
-        "operationId": "token_endpoint",
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/TokenRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Token response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TokenResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuthErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid client credentials",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuthErrorResponse"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Too many requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RestErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/plans": {
       "get": {
         "tags": [
@@ -3783,7 +3180,7 @@
             }
           },
           {
-            "name": "type",
+            "name": "plan_type",
             "in": "query",
             "description": "Filter by plan type (can be repeated)",
             "required": false,
@@ -3792,6 +3189,15 @@
               "items": {
                 "$ref": "#/components/schemas/PlanTypeEnum"
               }
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Sort order. Format: `column.direction`. Allowed columns: `name`, `status`, `plan_type`, `created_at`. Direction: `asc` or `desc`. Default: `created_at.desc`.",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -4478,6 +3884,15 @@
         "operationId": "list_product_families",
         "parameters": [
           {
+            "name": "order_by",
+            "in": "query",
+            "description": "Sort order. Format: `column.direction`. Allowed columns: `name`, `created_at`. Direction: `asc` or `desc`. Default: `created_at.desc`.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "page",
             "in": "query",
             "description": "Page number (0-indexed)",
@@ -4676,6 +4091,15 @@
           {
             "name": "search",
             "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Sort order. Format: `column.direction`. Allowed columns: `name`, `created_at`. Direction: `asc` or `desc`. Default: `name.asc`.",
             "required": false,
             "schema": {
               "type": "string"
@@ -5116,6 +4540,15 @@
               "items": {
                 "$ref": "#/components/schemas/SubscriptionStatusEnum"
               }
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Sort order. Format: `column.direction`. Allowed columns: `customer_name`, `plan_name`, `mrr_cents`, `billing_start_date`, `end_date`, `status`, `created_at`. Direction: `asc` or `desc`. Default: `created_at.desc`.",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -5570,7 +5003,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/BillableMetricId"
             }
           }
         ],
@@ -5674,7 +5107,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/BillableMetricId"
             }
           }
         ],
@@ -5769,7 +5202,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/BillableMetricId"
             }
           }
         ],
@@ -6143,6 +5576,28 @@
               "type": "string"
             },
             "description": "List of component_ids that support slot parametrization (initial slot count)"
+          }
+        }
+      },
+      "BankAccountId": {
+        "type": "string",
+        "format": "MeteroidId",
+        "examples": [
+          "ba_7n42DGM5Tflk9n8mt7Fhc7"
+        ]
+      },
+      "BankTransferPaymentMethodConfig": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/BankAccountId"
+              }
+            ]
           }
         }
       },
@@ -6521,6 +5976,17 @@
           }
         }
       },
+      "CapacityFeeStructure": {
+        "type": "object",
+        "required": [
+          "metric_id"
+        ],
+        "properties": {
+          "metric_id": {
+            "$ref": "#/components/schemas/BillableMetricId"
+          }
+        }
+      },
       "CapacityPlanFee": {
         "type": "object",
         "description": "Capacity-based fee with included committed usage and overage",
@@ -6541,6 +6007,29 @@
             "items": {
               "$ref": "#/components/schemas/CapacityThreshold"
             }
+          }
+        }
+      },
+      "CapacityPricing": {
+        "type": "object",
+        "required": [
+          "rate",
+          "included",
+          "overage_rate"
+        ],
+        "properties": {
+          "included": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0
+          },
+          "overage_rate": {
+            "type": "string",
+            "format": "decimal"
+          },
+          "rate": {
+            "type": "string",
+            "format": "decimal"
           }
         }
       },
@@ -6713,7 +6202,7 @@
             "type": "string"
           },
           "price_entry": {
-            "type": "object"
+            "$ref": "#/components/schemas/PriceEntry"
           }
         }
       },
@@ -6762,150 +6251,6 @@
             "minimum": 0
           }
         }
-      },
-      "ConnectedAccount": {
-        "type": "object",
-        "description": "A connected account (relationship between platform and connected org)",
-        "required": [
-          "id",
-          "platform_organization_id",
-          "connection_type",
-          "status",
-          "onboarding_mode",
-          "created_at"
-        ],
-        "properties": {
-          "connected_organization_id": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/OrganizationId",
-                "description": "For express accounts in pending status, this may be None until onboarding completes"
-              }
-            ]
-          },
-          "connected_tenant_id": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/TenantId",
-                "description": "Tenant ID for express accounts (single-tenant). None for standard accounts (use tenant header)."
-              }
-            ]
-          },
-          "connection_type": {
-            "$ref": "#/components/schemas/ConnectionType"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "id": {
-            "$ref": "#/components/schemas/ConnectedAccountId"
-          },
-          "metadata": {},
-          "onboarding_completed_at": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "onboarding_mode": {
-            "$ref": "#/components/schemas/OnboardingMode"
-          },
-          "pending_country": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/CountryCode",
-                "description": "Country code for the organization to be created (express flow only)"
-              }
-            ]
-          },
-          "pending_email": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "Email of the user being invited (express flow only)"
-          },
-          "pending_organization_name": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "Name of the organization to be created (express flow only)"
-          },
-          "platform_customer_id": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/CustomerId"
-              }
-            ]
-          },
-          "platform_organization_id": {
-            "$ref": "#/components/schemas/OrganizationId"
-          },
-          "revoked_at": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "status": {
-            "$ref": "#/components/schemas/ConnectionStatus"
-          }
-        }
-      },
-      "ConnectedAccountId": {
-        "type": "string",
-        "format": "MeteroidId",
-        "examples": [
-          "cacc_7n42DGM5Tflk9n8mt7Fhc7"
-        ]
-      },
-      "ConnectedAccountsResponse": {
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ConnectedAccount"
-            }
-          }
-        }
-      },
-      "ConnectionStatus": {
-        "type": "string",
-        "description": "Status of a connected account",
-        "enum": [
-          "pending",
-          "active",
-          "revoked",
-          "suspended"
-        ]
-      },
-      "ConnectionType": {
-        "type": "string",
-        "description": "Type of connection between platform and connected account",
-        "enum": [
-          "standard",
-          "express"
-        ]
       },
       "CountryCode": {
         "type": "string",
@@ -6988,46 +6333,19 @@
       "CouponDiscountRest": {
         "oneOf": [
           {
-            "type": "object",
-            "required": [
-              "percentage",
-              "discount_type"
-            ],
-            "properties": {
-              "discount_type": {
-                "type": "string",
-                "enum": [
-                  "PERCENTAGE"
-                ]
-              },
-              "percentage": {
-                "type": "string"
-              }
-            }
+            "$ref": "#/components/schemas/CouponPercentageDiscount"
           },
           {
-            "type": "object",
-            "required": [
-              "currency",
-              "amount",
-              "discount_type"
-            ],
-            "properties": {
-              "amount": {
-                "type": "string"
-              },
-              "currency": {
-                "type": "string"
-              },
-              "discount_type": {
-                "type": "string",
-                "enum": [
-                  "FIXED"
-                ]
-              }
-            }
+            "$ref": "#/components/schemas/CouponFixedDiscount"
           }
-        ]
+        ],
+        "discriminator": {
+          "propertyName": "discount_type",
+          "mapping": {
+            "FIXED": "#/components/schemas/CouponFixedDiscount",
+            "PERCENTAGE": "#/components/schemas/CouponPercentageDiscount"
+          }
+        }
       },
       "CouponEvent": {
         "allOf": [
@@ -7113,6 +6431,21 @@
           }
         }
       },
+      "CouponFixedDiscount": {
+        "type": "object",
+        "required": [
+          "currency",
+          "amount"
+        ],
+        "properties": {
+          "amount": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          }
+        }
+      },
       "CouponId": {
         "type": "string",
         "format": "MeteroidId",
@@ -7155,6 +6488,17 @@
           },
           "pagination_meta": {
             "$ref": "#/components/schemas/PaginationResponse"
+          }
+        }
+      },
+      "CouponPercentageDiscount": {
+        "type": "object",
+        "required": [
+          "percentage"
+        ],
+        "properties": {
+          "percentage": {
+            "type": "string"
           }
         }
       },
@@ -7341,39 +6685,6 @@
           }
         }
       },
-      "CreateConnectedAccountRequest": {
-        "type": "object",
-        "required": [
-          "connected_organization_id"
-        ],
-        "properties": {
-          "connected_organization_id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "connection_type": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/ConnectionType"
-              }
-            ]
-          },
-          "metadata": {},
-          "platform_customer_id": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "$ref": "#/components/schemas/CustomerId"
-              }
-            ]
-          }
-        }
-      },
       "CreateCouponRequest": {
         "type": "object",
         "required": [
@@ -7493,44 +6804,6 @@
               "string",
               "null"
             ]
-          }
-        }
-      },
-      "CreateOAuthAppRequest": {
-        "type": "object",
-        "required": [
-          "name",
-          "redirect_uris"
-        ],
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "redirect_uris": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "scopes": {
-            "type": [
-              "array",
-              "null"
-            ],
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "CreateOnboardingLinkRequest": {
-        "type": "object",
-        "required": [
-          "redirect_url"
-        ],
-        "properties": {
-          "redirect_url": {
-            "type": "string"
           }
         }
       },
@@ -8598,6 +7871,31 @@
           "addon.archived"
         ]
       },
+      "ExistingPriceRef": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/PriceId"
+          }
+        }
+      },
+      "ExistingProductRef": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ProductId"
+          }
+        }
+      },
+      "ExternalPaymentMethodConfig": {
+        "type": "object"
+      },
       "ExtraComponent": {
         "type": "object",
         "required": [
@@ -8610,10 +7908,10 @@
             "type": "string"
           },
           "price_entry": {
-            "type": "object"
+            "$ref": "#/components/schemas/PriceEntry"
           },
           "product_ref": {
-            "type": "object"
+            "$ref": "#/components/schemas/ProductRef"
           }
         }
       },
@@ -8623,6 +7921,17 @@
           "ADVANCE",
           "ARREARS"
         ]
+      },
+      "ExtraRecurringFeeStructure": {
+        "type": "object",
+        "required": [
+          "billing_type"
+        ],
+        "properties": {
+          "billing_type": {
+            "$ref": "#/components/schemas/ExtraRecurringBillingTypeEnum"
+          }
+        }
       },
       "ExtraRecurringPlanFee": {
         "type": "object",
@@ -8647,6 +7956,24 @@
           },
           "unit_price": {
             "type": "string"
+          }
+        }
+      },
+      "ExtraRecurringPricing": {
+        "type": "object",
+        "required": [
+          "unit_price",
+          "quantity"
+        ],
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "unit_price": {
+            "type": "string",
+            "format": "decimal"
           }
         }
       },
@@ -8776,19 +8103,6 @@
           },
           "reason": {
             "type": "string"
-          }
-        }
-      },
-      "IntrospectionRequest": {
-        "type": "object",
-        "description": "Token introspection request",
-        "required": [
-          "token"
-        ],
-        "properties": {
-          "token": {
-            "type": "string",
-            "description": "The token to introspect"
           }
         }
       },
@@ -9119,28 +8433,28 @@
       "InvoicePaymentStatus": {
         "type": "string",
         "enum": [
-          "Unpaid",
-          "PartiallyPaid",
-          "Paid",
-          "Errored"
+          "UNPAID",
+          "PARTIALLY_PAID",
+          "PAID",
+          "ERRORED"
         ]
       },
       "InvoiceStatus": {
         "type": "string",
         "enum": [
-          "Draft",
-          "Finalized",
-          "Uncollectible",
-          "Void"
+          "DRAFT",
+          "FINALIZED",
+          "UNCOLLECTIBLE",
+          "VOID"
         ]
       },
       "InvoiceType": {
         "type": "string",
         "enum": [
-          "Recurring",
-          "OneOff",
-          "Adjustment",
-          "UsageThreshold"
+          "RECURRING",
+          "ONE_OFF",
+          "ADJUSTMENT",
+          "USAGE_THRESHOLD"
         ]
       },
       "InvoicingEntityId": {
@@ -9607,7 +8921,7 @@
             "type": "string"
           },
           "metric_id": {
-            "type": "string"
+            "$ref": "#/components/schemas/BillableMetricId"
           },
           "metric_name": {
             "type": "string"
@@ -9618,165 +8932,24 @@
           }
         }
       },
-      "OAuthApp": {
+      "NewProductRef": {
         "type": "object",
-        "description": "An OAuth application registered by a platform",
         "required": [
-          "id",
-          "organization_id",
           "name",
-          "client_id",
-          "client_secret_hint",
-          "redirect_uris",
-          "scopes",
-          "is_active",
-          "created_at"
+          "fee_type",
+          "fee_structure"
         ],
         "properties": {
-          "client_id": {
-            "type": "string"
+          "fee_structure": {
+            "$ref": "#/components/schemas/ProductFeeStructure"
           },
-          "client_secret_hint": {
-            "type": "string"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "id": {
-            "$ref": "#/components/schemas/OAuthAppId"
-          },
-          "is_active": {
-            "type": "boolean"
+          "fee_type": {
+            "$ref": "#/components/schemas/ProductFeeTypeEnum"
           },
           "name": {
             "type": "string"
-          },
-          "organization_id": {
-            "$ref": "#/components/schemas/OrganizationId"
-          },
-          "redirect_uris": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "scopes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "updated_at": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
           }
         }
-      },
-      "OAuthAppId": {
-        "type": "string",
-        "format": "MeteroidId",
-        "examples": [
-          "app_7n42DGM5Tflk9n8mt7Fhc7"
-        ]
-      },
-      "OAuthAppWithSecret": {
-        "type": "object",
-        "description": "Result of creating an OAuth app (includes the plain-text secret)",
-        "required": [
-          "app",
-          "client_secret"
-        ],
-        "properties": {
-          "app": {
-            "$ref": "#/components/schemas/OAuthApp"
-          },
-          "client_secret": {
-            "type": "string"
-          }
-        }
-      },
-      "OAuthAppsResponse": {
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OAuthApp"
-            }
-          }
-        }
-      },
-      "OAuthErrorCode": {
-        "type": "string",
-        "description": "OAuth 2.0 error codes as per RFC 6749",
-        "enum": [
-          "invalid_request",
-          "unauthorized_client",
-          "access_denied",
-          "unsupported_response_type",
-          "invalid_scope",
-          "server_error",
-          "temporarily_unavailable",
-          "invalid_grant",
-          "invalid_client",
-          "unsupported_grant_type"
-        ]
-      },
-      "OAuthErrorResponse": {
-        "type": "object",
-        "description": "OAuth 2.0 error response as per RFC 6749 Section 5.2",
-        "required": [
-          "error"
-        ],
-        "properties": {
-          "error": {
-            "$ref": "#/components/schemas/OAuthErrorCode"
-          },
-          "error_description": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "error_uri": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
-        }
-      },
-      "OnboardingLinkResponse": {
-        "type": "object",
-        "description": "Result of creating an onboarding link",
-        "required": [
-          "url",
-          "expires_at"
-        ],
-        "properties": {
-          "expires_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "url": {
-            "type": "string"
-          }
-        }
-      },
-      "OnboardingMode": {
-        "type": "string",
-        "description": "Onboarding mode for connected accounts",
-        "enum": [
-          "express",
-          "full"
-        ]
       },
       "OneTimeFee": {
         "type": "object",
@@ -9796,6 +8969,9 @@
           }
         }
       },
+      "OneTimeFeeStructure": {
+        "type": "object"
+      },
       "OneTimePlanFee": {
         "type": "object",
         "description": "One-time fee",
@@ -9811,6 +8987,24 @@
           },
           "unit_price": {
             "type": "string"
+          }
+        }
+      },
+      "OneTimePricing": {
+        "type": "object",
+        "required": [
+          "unit_price",
+          "quantity"
+        ],
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "unit_price": {
+            "type": "string",
+            "format": "decimal"
           }
         }
       },
@@ -9850,12 +9044,21 @@
           }
         }
       },
-      "OrganizationId": {
-        "type": "string",
-        "format": "MeteroidId",
-        "examples": [
-          "org_7n42DGM5Tflk9n8mt7Fhc7"
-        ]
+      "OnlinePaymentMethodConfig": {
+        "type": "object",
+        "properties": {
+          "config": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/OnlineMethodsConfig",
+                "description": "If None, inherits all online providers from invoicing entity."
+              }
+            ]
+          }
+        }
       },
       "PackagePlanPricing": {
         "type": "object",
@@ -9979,84 +9182,42 @@
       "PaymentMethodTypeEnum": {
         "type": "string",
         "enum": [
-          "Card",
-          "BankTransfer",
-          "Wallet",
-          "Other"
+          "CARD",
+          "BANK_TRANSFER",
+          "WALLET",
+          "OTHER"
         ]
       },
       "PaymentMethodsConfig": {
         "oneOf": [
           {
-            "type": "object",
-            "required": [
-              "type"
-            ],
-            "properties": {
-              "config": {
-                "oneOf": [
-                  {
-                    "type": "null"
-                  },
-                  {
-                    "$ref": "#/components/schemas/OnlineMethodsConfig",
-                    "description": "If None, inherits all online providers from invoicing entity."
-                  }
-                ]
-              },
-              "type": {
-                "type": "string",
-                "enum": [
-                  "online"
-                ]
-              }
-            }
+            "$ref": "#/components/schemas/OnlinePaymentMethodConfig"
           },
           {
-            "type": "object",
-            "required": [
-              "type"
-            ],
-            "properties": {
-              "account_id": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "type": {
-                "type": "string",
-                "enum": [
-                  "bank_transfer"
-                ]
-              }
-            }
+            "$ref": "#/components/schemas/BankTransferPaymentMethodConfig"
           },
           {
-            "type": "object",
-            "required": [
-              "type"
-            ],
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": [
-                  "external"
-                ]
-              }
-            }
+            "$ref": "#/components/schemas/ExternalPaymentMethodConfig"
           }
         ],
-        "description": "Online (card/direct debit), BankTransfer, or External."
+        "description": "Online (card/direct debit), BankTransfer, or External.",
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "bank_transfer": "#/components/schemas/BankTransferPaymentMethodConfig",
+            "external": "#/components/schemas/ExternalPaymentMethodConfig",
+            "online": "#/components/schemas/OnlinePaymentMethodConfig"
+          }
+        }
       },
       "PaymentStatusEnum": {
         "type": "string",
         "enum": [
-          "Ready",
-          "Pending",
-          "Settled",
-          "Cancelled",
-          "Failed"
+          "READY",
+          "PENDING",
+          "SETTLED",
+          "CANCELLED",
+          "FAILED"
         ]
       },
       "PaymentTransactionId": {
@@ -10069,8 +9230,8 @@
       "PaymentTypeEnum": {
         "type": "string",
         "enum": [
-          "Payment",
-          "Refund"
+          "PAYMENT",
+          "REFUND"
         ]
       },
       "PerUnitPlanPricing": {
@@ -10502,12 +9663,81 @@
           }
         }
       },
+      "PriceEntry": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ExistingPriceRef"
+          },
+          {
+            "$ref": "#/components/schemas/PriceInput"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "discriminator",
+          "mapping": {
+            "EXISTING": "#/components/schemas/ExistingPriceRef",
+            "NEW": "#/components/schemas/PriceInput"
+          }
+        }
+      },
       "PriceId": {
         "type": "string",
         "format": "MeteroidId",
         "examples": [
           "pri_7n42DGM5Tflk9n8mt7Fhc7"
         ]
+      },
+      "PriceInput": {
+        "type": "object",
+        "required": [
+          "cadence",
+          "currency",
+          "pricing"
+        ],
+        "properties": {
+          "cadence": {
+            "$ref": "#/components/schemas/BillingPeriodEnum"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/Pricing"
+          }
+        }
+      },
+      "Pricing": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/RatePricing"
+          },
+          {
+            "$ref": "#/components/schemas/SlotPricing"
+          },
+          {
+            "$ref": "#/components/schemas/CapacityPricing"
+          },
+          {
+            "$ref": "#/components/schemas/UsagePricing"
+          },
+          {
+            "$ref": "#/components/schemas/ExtraRecurringPricing"
+          },
+          {
+            "$ref": "#/components/schemas/OneTimePricing"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "discriminator",
+          "mapping": {
+            "CAPACITY": "#/components/schemas/CapacityPricing",
+            "EXTRA_RECURRING": "#/components/schemas/ExtraRecurringPricing",
+            "ONE_TIME": "#/components/schemas/OneTimePricing",
+            "RATE": "#/components/schemas/RatePricing",
+            "SLOT": "#/components/schemas/SlotPricing",
+            "USAGE": "#/components/schemas/UsagePricing"
+          }
+        }
       },
       "Product": {
         "type": "object",
@@ -10673,118 +9903,35 @@
       "ProductFeeStructure": {
         "oneOf": [
           {
-            "type": "object",
-            "required": [
-              "fee_type"
-            ],
-            "properties": {
-              "fee_type": {
-                "type": "string",
-                "enum": [
-                  "RATE"
-                ]
-              }
-            }
+            "$ref": "#/components/schemas/RateFeeStructure"
           },
           {
-            "type": "object",
-            "required": [
-              "slot_unit_name",
-              "upgrade_policy",
-              "downgrade_policy",
-              "fee_type"
-            ],
-            "properties": {
-              "downgrade_policy": {
-                "$ref": "#/components/schemas/SlotDowngradePolicyEnum"
-              },
-              "fee_type": {
-                "type": "string",
-                "enum": [
-                  "SLOT"
-                ]
-              },
-              "slot_unit_name": {
-                "type": "string"
-              },
-              "upgrade_policy": {
-                "$ref": "#/components/schemas/SlotUpgradePolicyEnum"
-              }
-            }
+            "$ref": "#/components/schemas/SlotFeeStructure"
           },
           {
-            "type": "object",
-            "required": [
-              "metric_id",
-              "fee_type"
-            ],
-            "properties": {
-              "fee_type": {
-                "type": "string",
-                "enum": [
-                  "CAPACITY"
-                ]
-              },
-              "metric_id": {
-                "$ref": "#/components/schemas/BillableMetricId"
-              }
-            }
+            "$ref": "#/components/schemas/CapacityFeeStructure"
           },
           {
-            "type": "object",
-            "required": [
-              "metric_id",
-              "model",
-              "fee_type"
-            ],
-            "properties": {
-              "fee_type": {
-                "type": "string",
-                "enum": [
-                  "USAGE"
-                ]
-              },
-              "metric_id": {
-                "$ref": "#/components/schemas/BillableMetricId"
-              },
-              "model": {
-                "$ref": "#/components/schemas/UsageModelEnum"
-              }
-            }
+            "$ref": "#/components/schemas/UsageFeeStructure"
           },
           {
-            "type": "object",
-            "required": [
-              "billing_type",
-              "fee_type"
-            ],
-            "properties": {
-              "billing_type": {
-                "$ref": "#/components/schemas/ExtraRecurringBillingTypeEnum"
-              },
-              "fee_type": {
-                "type": "string",
-                "enum": [
-                  "EXTRA_RECURRING"
-                ]
-              }
-            }
+            "$ref": "#/components/schemas/ExtraRecurringFeeStructure"
           },
           {
-            "type": "object",
-            "required": [
-              "fee_type"
-            ],
-            "properties": {
-              "fee_type": {
-                "type": "string",
-                "enum": [
-                  "ONE_TIME"
-                ]
-              }
-            }
+            "$ref": "#/components/schemas/OneTimeFeeStructure"
           }
-        ]
+        ],
+        "discriminator": {
+          "propertyName": "fee_type",
+          "mapping": {
+            "CAPACITY": "#/components/schemas/CapacityFeeStructure",
+            "EXTRA_RECURRING": "#/components/schemas/ExtraRecurringFeeStructure",
+            "ONE_TIME": "#/components/schemas/OneTimeFeeStructure",
+            "RATE": "#/components/schemas/RateFeeStructure",
+            "SLOT": "#/components/schemas/SlotFeeStructure",
+            "USAGE": "#/components/schemas/UsageFeeStructure"
+          }
+        }
       },
       "ProductFeeTypeEnum": {
         "type": "string",
@@ -10819,6 +9966,23 @@
           },
           "pagination_meta": {
             "$ref": "#/components/schemas/PaginationResponse"
+          }
+        }
+      },
+      "ProductRef": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ExistingProductRef"
+          },
+          {
+            "$ref": "#/components/schemas/NewProductRef"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "discriminator",
+          "mapping": {
+            "EXISTING": "#/components/schemas/ExistingProductRef",
+            "NEW": "#/components/schemas/NewProductRef"
           }
         }
       },
@@ -10893,6 +10057,9 @@
           }
         }
       },
+      "RateFeeStructure": {
+        "type": "object"
+      },
       "RatePlanFee": {
         "type": "object",
         "description": "Recurring rate fee (e.g., monthly subscription)",
@@ -10905,6 +10072,18 @@
             "items": {
               "$ref": "#/components/schemas/TermRate"
             }
+          }
+        }
+      },
+      "RatePricing": {
+        "type": "object",
+        "required": [
+          "rate"
+        ],
+        "properties": {
+          "rate": {
+            "type": "string",
+            "format": "decimal"
           }
         }
       },
@@ -11009,42 +10188,6 @@
           }
         }
       },
-      "RevocationRequest": {
-        "type": "object",
-        "description": "Token revocation request",
-        "required": [
-          "token"
-        ],
-        "properties": {
-          "token": {
-            "type": "string",
-            "description": "The token to revoke"
-          },
-          "token_type_hint": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "Optional hint about the token type (access_token or refresh_token)"
-          }
-        }
-      },
-      "RotatedSecret": {
-        "type": "object",
-        "description": "Result of rotating a client secret",
-        "required": [
-          "client_secret",
-          "client_secret_hint"
-        ],
-        "properties": {
-          "client_secret": {
-            "type": "string"
-          },
-          "client_secret_hint": {
-            "type": "string"
-          }
-        }
-      },
       "ShippingAddress": {
         "type": "object",
         "required": [
@@ -11110,6 +10253,25 @@
           }
         }
       },
+      "SlotFeeStructure": {
+        "type": "object",
+        "required": [
+          "slot_unit_name",
+          "upgrade_policy",
+          "downgrade_policy"
+        ],
+        "properties": {
+          "downgrade_policy": {
+            "$ref": "#/components/schemas/SlotDowngradePolicyEnum"
+          },
+          "slot_unit_name": {
+            "type": "string"
+          },
+          "upgrade_policy": {
+            "$ref": "#/components/schemas/SlotUpgradePolicyEnum"
+          }
+        }
+      },
       "SlotPlanFee": {
         "type": "object",
         "description": "Slot-based fee (e.g., per-seat pricing)",
@@ -11142,6 +10304,34 @@
           },
           "slot_unit_name": {
             "type": "string"
+          }
+        }
+      },
+      "SlotPricing": {
+        "type": "object",
+        "required": [
+          "unit_rate"
+        ],
+        "properties": {
+          "max_slots": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "format": "int32",
+            "minimum": 0
+          },
+          "min_slots": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "format": "int32",
+            "minimum": 0
+          },
+          "unit_rate": {
+            "type": "string",
+            "format": "decimal"
           }
         }
       },
@@ -11462,7 +10652,7 @@
             ]
           },
           "price_entry": {
-            "type": "object"
+            "$ref": "#/components/schemas/PriceEntry"
           }
         }
       },
@@ -12125,16 +11315,9 @@
       "TaxExemptionType": {
         "type": "string",
         "enum": [
-          "ReverseCharge",
-          "TaxExempt",
-          "NotRegistered"
-        ]
-      },
-      "TenantId": {
-        "type": "string",
-        "format": "MeteroidId",
-        "examples": [
-          "ten_7n42DGM5Tflk9n8mt7Fhc7"
+          "REVERSE_CHARGE",
+          "TAX_EXEMPT",
+          "NOT_REGISTERED"
         ]
       },
       "TermRate": {
@@ -12221,144 +11404,6 @@
             "items": {
               "$ref": "#/components/schemas/TierRow"
             }
-          }
-        }
-      },
-      "TokenIntrospectionResponse": {
-        "type": "object",
-        "description": "Token introspection response as per RFC 7662",
-        "required": [
-          "active"
-        ],
-        "properties": {
-          "active": {
-            "type": "boolean"
-          },
-          "client_id": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "exp": {
-            "type": [
-              "integer",
-              "null"
-            ],
-            "format": "int64"
-          },
-          "iat": {
-            "type": [
-              "integer",
-              "null"
-            ],
-            "format": "int64"
-          },
-          "scope": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "sub": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "token_type": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
-        }
-      },
-      "TokenRequest": {
-        "type": "object",
-        "description": "Token request (from POST body, application/x-www-form-urlencoded)",
-        "required": [
-          "grant_type"
-        ],
-        "properties": {
-          "client_id": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "Client ID (if not using HTTP Basic auth)"
-          },
-          "client_secret": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "Client secret (if not using HTTP Basic auth)"
-          },
-          "code": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "Authorization code (for authorization_code grant)"
-          },
-          "code_verifier": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "PKCE code verifier (for authorization_code grant with PKCE)"
-          },
-          "grant_type": {
-            "type": "string",
-            "description": "Grant type: \"authorization_code\" or \"refresh_token\""
-          },
-          "redirect_uri": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "Redirect URI (for authorization_code grant, must match the one used in /authorize)"
-          },
-          "refresh_token": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "Refresh token (for refresh_token grant)"
-          }
-        }
-      },
-      "TokenResponse": {
-        "type": "object",
-        "description": "Token response as per OAuth 2.0 spec",
-        "required": [
-          "access_token",
-          "token_type",
-          "expires_in"
-        ],
-        "properties": {
-          "access_token": {
-            "type": "string"
-          },
-          "expires_in": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "refresh_token": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "scope": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "token_type": {
-            "type": "string"
           }
         }
       },
@@ -12633,6 +11678,21 @@
           }
         }
       },
+      "UsageFeeStructure": {
+        "type": "object",
+        "required": [
+          "metric_id",
+          "model"
+        ],
+        "properties": {
+          "metric_id": {
+            "$ref": "#/components/schemas/BillableMetricId"
+          },
+          "model": {
+            "$ref": "#/components/schemas/UsageModelEnum"
+          }
+        }
+      },
       "UsageModelEnum": {
         "type": "string",
         "enum": [
@@ -12660,6 +11720,17 @@
           },
           "pricing": {
             "$ref": "#/components/schemas/PlanUsagePricingModel"
+          }
+        }
+      },
+      "UsagePricing": {
+        "type": "object",
+        "required": [
+          "model"
+        ],
+        "properties": {
+          "model": {
+            "$ref": "#/components/schemas/UsagePricingModel"
           }
         }
       },
@@ -12770,20 +11841,8 @@
   },
   "tags": [
     {
-      "name": "Connect",
-      "description": "Manage connected accounts (Express & Standard)"
-    },
-    {
       "name": "Meteroid",
       "description": "Meteroid API"
-    },
-    {
-      "name": "OAuth",
-      "description": "OAuth 2.0 token endpoints (public, client-credentials auth)"
-    },
-    {
-      "name": "OAuth Apps",
-      "description": "Manage OAuth applications for Connect integrations"
     }
   ],
   "webhooks": {
@@ -13209,7 +12268,7 @@
                 "type": "invoice.created",
                 "invoice_id": "inv_7n42DGM5Tflk9n8mt7Fhc7",
                 "customer_id": "cus_7n42DGM5Tflk9n8mt7Fhc7",
-                "status": "Draft",
+                "status": "DRAFT",
                 "currency": "EUR",
                 "total": 10000,
                 "tax_amount": 2000,
@@ -13246,7 +12305,7 @@
                 "type": "invoice.finalized",
                 "invoice_id": "inv_7n42DGM5Tflk9n8mt7Fhc7",
                 "customer_id": "cus_7n42DGM5Tflk9n8mt7Fhc7",
-                "status": "Draft",
+                "status": "DRAFT",
                 "currency": "EUR",
                 "total": 10000,
                 "tax_amount": 2000,
@@ -13283,7 +12342,7 @@
                 "type": "invoice.paid",
                 "invoice_id": "inv_7n42DGM5Tflk9n8mt7Fhc7",
                 "customer_id": "cus_7n42DGM5Tflk9n8mt7Fhc7",
-                "status": "Draft",
+                "status": "DRAFT",
                 "currency": "EUR",
                 "total": 10000,
                 "tax_amount": 2000,
@@ -13320,7 +12379,7 @@
                 "type": "invoice.voided",
                 "invoice_id": "inv_7n42DGM5Tflk9n8mt7Fhc7",
                 "customer_id": "cus_7n42DGM5Tflk9n8mt7Fhc7",
-                "status": "Draft",
+                "status": "DRAFT",
                 "currency": "EUR",
                 "total": 10000,
                 "tax_amount": 2000,

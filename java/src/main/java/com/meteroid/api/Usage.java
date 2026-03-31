@@ -2,6 +2,7 @@
 package com.meteroid.api;
 
 import com.meteroid.MeteroidHttpClient;
+import com.meteroid.Utils;
 import com.meteroid.exceptions.ApiException;
 import com.meteroid.models.UsageResponse;
 
@@ -37,7 +38,7 @@ public class Usage {
             url.addQueryParameter("end_date", options.endDate);
         }
         if (options.metricId != null) {
-            url.addQueryParameter("metric_id", options.metricId);
+            url.addQueryParameter("metric_id", Utils.serializeQueryParam(options.metricId));
         }
         return this.client.executeRequest("GET", url.build(), null, null, UsageResponse.class);
     }
@@ -70,7 +71,7 @@ public class Usage {
             url.addQueryParameter("end_date", options.endDate);
         }
         if (options.metricId != null) {
-            url.addQueryParameter("metric_id", options.metricId);
+            url.addQueryParameter("metric_id", Utils.serializeQueryParam(options.metricId));
         }
         return this.client.executeRequest("GET", url.build(), null, null, UsageResponse.class);
     }
@@ -92,7 +93,7 @@ public class Usage {
             url.addQueryParameter("end_date", options.endDate);
         }
         if (options.metricId != null) {
-            url.addQueryParameter("metric_id", options.metricId);
+            url.addQueryParameter("metric_id", Utils.serializeQueryParam(options.metricId));
         }
         return this.client.executeRequest("GET", url.build(), null, null, UsageResponse.class);
     }
