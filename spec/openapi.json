@@ -465,7 +465,13 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/BatchJobType"
+              "type": "string",
+              "enum": [
+                "EVENT_CSV_IMPORT",
+                "CUSTOMER_CSV_IMPORT",
+                "SUBSCRIPTION_CSV_IMPORT",
+                "SUBSCRIPTION_PLAN_MIGRATION"
+              ]
             }
           },
           {
@@ -475,7 +481,16 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/BatchJobStatus"
+                "type": "string",
+                "enum": [
+                  "PENDING",
+                  "CHUNKING",
+                  "PROCESSING",
+                  "COMPLETED",
+                  "COMPLETED_WITH_ERRORS",
+                  "FAILED",
+                  "CANCELLED"
+                ]
               }
             }
           },
@@ -757,7 +772,14 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/CheckoutSessionStatus"
+              "type": "string",
+              "enum": [
+                "CREATED",
+                "AWAITING_PAYMENT",
+                "COMPLETED",
+                "EXPIRED",
+                "CANCELLED"
+              ]
             }
           }
         ],
@@ -2462,7 +2484,13 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/InvoiceStatus"
+                "type": "string",
+                "enum": [
+                  "DRAFT",
+                  "FINALIZED",
+                  "UNCOLLECTIBLE",
+                  "VOID"
+                ]
               }
             }
           },
@@ -3175,7 +3203,13 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/PlanStatusEnum"
+                "type": "string",
+                "enum": [
+                  "DRAFT",
+                  "ACTIVE",
+                  "INACTIVE",
+                  "ARCHIVED"
+                ]
               }
             }
           },
@@ -3187,7 +3221,12 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/PlanTypeEnum"
+                "type": "string",
+                "enum": [
+                  "STANDARD",
+                  "FREE",
+                  "CUSTOM"
+                ]
               }
             }
           },
@@ -4538,7 +4577,20 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/SubscriptionStatusEnum"
+                "type": "string",
+                "enum": [
+                  "PENDING_ACTIVATION",
+                  "PENDING_CHARGE",
+                  "TRIAL_ACTIVE",
+                  "ACTIVE",
+                  "TRIAL_EXPIRED",
+                  "PAUSED",
+                  "SUSPENDED",
+                  "CANCELLED",
+                  "COMPLETED",
+                  "SUPERSEDED",
+                  "ERRORED"
+                ]
               }
             }
           },

@@ -18,21 +18,19 @@ mod usage;
 
 pub use self::{
     add_ons::{AddOns, AddOnsListAddonsOptions},
-    batch_jobs::{BatchJobs, BatchJobsListBatchJobFailuresOptions, BatchJobsListBatchJobsOptions},
-    checkout_sessions::{CheckoutSessions, CheckoutSessionsListCheckoutSessionsOptions},
+    batch_jobs::{BatchJobs, BatchJobsListBatchJobFailuresOptions},
+    checkout_sessions::CheckoutSessions,
     client::{Meteroid, MeteroidOptions},
     coupons::Coupons,
     credit_notes::CreditNotes,
     customers::{Customers, CustomersListCustomersOptions},
     events::Events,
-    invoices::{Invoices, InvoicesListInvoicesOptions},
+    invoices::Invoices,
     metrics::{Metrics, MetricsListMetricsOptions},
-    plans::{
-        Plans, PlansGetPlanDetailsOptions, PlansListPlanVersionsOptions, PlansListPlansOptions,
-    },
+    plans::{Plans, PlansGetPlanDetailsOptions, PlansListPlanVersionsOptions},
     product_families::{ProductFamilies, ProductFamiliesListProductFamiliesOptions},
     products::{Products, ProductsListProductsOptions},
-    subscriptions::{Subscriptions, SubscriptionsListSubscriptionsOptions},
+    subscriptions::Subscriptions,
     usage::{
         Usage, UsageGetCustomerUsageOptions, UsageGetSubscriptionUsageOptions,
         UsageGetUsageSummaryOptions,

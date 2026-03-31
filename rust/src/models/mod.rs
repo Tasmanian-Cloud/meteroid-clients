@@ -18,8 +18,6 @@ pub mod batch_job_detail_response;
 pub mod batch_job_failures_response;
 pub mod batch_job_id;
 pub mod batch_job_item_failure_response;
-pub mod batch_job_list_response;
-pub mod batch_job_response;
 pub mod batch_job_status;
 pub mod batch_job_type;
 pub mod billable_metric_id;
@@ -102,12 +100,10 @@ pub mod invoice_event;
 pub mod invoice_event_data;
 pub mod invoice_id;
 pub mod invoice_line_item;
-pub mod invoice_list_response;
 pub mod invoice_payment_status;
 pub mod invoice_status;
 pub mod invoice_type;
 pub mod invoicing_entity_id;
-pub mod list_checkout_sessions_response;
 pub mod matrix_dimension;
 pub mod matrix_plan_pricing;
 pub mod matrix_pricing;
@@ -146,7 +142,6 @@ pub mod plan_add_on_input;
 pub mod plan_event;
 pub mod plan_event_data;
 pub mod plan_id;
-pub mod plan_list_response;
 pub mod plan_status_enum;
 pub mod plan_type_enum;
 pub mod plan_usage_pricing_model;
@@ -204,7 +199,6 @@ pub mod subscription_event_data;
 pub mod subscription_fee;
 pub mod subscription_fee_billing_period_enum;
 pub mod subscription_id;
-pub mod subscription_list_response;
 pub mod subscription_status_enum;
 pub mod subscription_update_request;
 pub mod subscription_update_response;
@@ -244,11 +238,9 @@ pub use self::{
     bank_transfer_payment_method_config::BankTransferPaymentMethodConfig,
     batch_job_chunk_id::BatchJobChunkId, batch_job_detail_response::BatchJobDetailResponse,
     batch_job_failures_response::BatchJobFailuresResponse, batch_job_id::BatchJobId,
-    batch_job_item_failure_response::BatchJobItemFailureResponse,
-    batch_job_list_response::BatchJobListResponse, batch_job_response::BatchJobResponse,
-    batch_job_status::BatchJobStatus, batch_job_type::BatchJobType,
-    billable_metric_id::BillableMetricId, billing_config::BillingConfig,
-    billing_metric_aggregate_enum::BillingMetricAggregateEnum,
+    batch_job_item_failure_response::BatchJobItemFailureResponse, batch_job_status::BatchJobStatus,
+    batch_job_type::BatchJobType, billable_metric_id::BillableMetricId,
+    billing_config::BillingConfig, billing_metric_aggregate_enum::BillingMetricAggregateEnum,
     billing_period_enum::BillingPeriodEnum, billing_type::BillingType,
     billing_type_enum::BillingTypeEnum,
     cancel_checkout_session_response::CancelCheckoutSessionResponse,
@@ -291,13 +283,11 @@ pub use self::{
     ingest_events_request::IngestEventsRequest, ingest_events_response::IngestEventsResponse,
     ingest_failure::IngestFailure, invoice::Invoice, invoice_event::InvoiceEvent,
     invoice_event_data::InvoiceEventData, invoice_id::InvoiceId,
-    invoice_line_item::InvoiceLineItem, invoice_list_response::InvoiceListResponse,
-    invoice_payment_status::InvoicePaymentStatus, invoice_status::InvoiceStatus,
-    invoice_type::InvoiceType, invoicing_entity_id::InvoicingEntityId,
-    list_checkout_sessions_response::ListCheckoutSessionsResponse,
-    matrix_dimension::MatrixDimension, matrix_plan_pricing::MatrixPlanPricing,
-    matrix_pricing::MatrixPricing, matrix_row::MatrixRow, metric::Metric,
-    metric_dimension::MetricDimension, metric_event::MetricEvent,
+    invoice_line_item::InvoiceLineItem, invoice_payment_status::InvoicePaymentStatus,
+    invoice_status::InvoiceStatus, invoice_type::InvoiceType,
+    invoicing_entity_id::InvoicingEntityId, matrix_dimension::MatrixDimension,
+    matrix_plan_pricing::MatrixPlanPricing, matrix_pricing::MatrixPricing, matrix_row::MatrixRow,
+    metric::Metric, metric_dimension::MetricDimension, metric_event::MetricEvent,
     metric_event_data::MetricEventData, metric_list_response::MetricListResponse,
     metric_segmentation_matrix::MetricSegmentationMatrix, metric_summary::MetricSummary,
     metric_usage::MetricUsage, new_product_ref::NewProductRef, one_time_fee::OneTimeFee,
@@ -313,15 +303,15 @@ pub use self::{
     per_unit_plan_pricing::PerUnitPlanPricing, per_unit_pricing::PerUnitPricing,
     percentage_discount::PercentageDiscount, plan::Plan, plan_add_on_input::PlanAddOnInput,
     plan_event::PlanEvent, plan_event_data::PlanEventData, plan_id::PlanId,
-    plan_list_response::PlanListResponse, plan_status_enum::PlanStatusEnum,
-    plan_type_enum::PlanTypeEnum, plan_usage_pricing_model::PlanUsagePricingModel,
-    plan_version_id::PlanVersionId, plan_version_list_response::PlanVersionListResponse,
-    plan_version_summary::PlanVersionSummary, price_component::PriceComponent,
-    price_component_id::PriceComponentId, price_component_input::PriceComponentInput,
-    price_entry::PriceEntry, price_id::PriceId, price_input::PriceInput, pricing::Pricing,
-    product::Product, product_event::ProductEvent, product_event_data::ProductEventData,
-    product_family::ProductFamily, product_family_create_request::ProductFamilyCreateRequest,
-    product_family_id::ProductFamilyId, product_family_list_response::ProductFamilyListResponse,
+    plan_status_enum::PlanStatusEnum, plan_type_enum::PlanTypeEnum,
+    plan_usage_pricing_model::PlanUsagePricingModel, plan_version_id::PlanVersionId,
+    plan_version_list_response::PlanVersionListResponse, plan_version_summary::PlanVersionSummary,
+    price_component::PriceComponent, price_component_id::PriceComponentId,
+    price_component_input::PriceComponentInput, price_entry::PriceEntry, price_id::PriceId,
+    price_input::PriceInput, pricing::Pricing, product::Product, product_event::ProductEvent,
+    product_event_data::ProductEventData, product_family::ProductFamily,
+    product_family_create_request::ProductFamilyCreateRequest, product_family_id::ProductFamilyId,
+    product_family_list_response::ProductFamilyListResponse,
     product_fee_structure::ProductFeeStructure, product_fee_type_enum::ProductFeeTypeEnum,
     product_id::ProductId, product_list_response::ProductListResponse, product_ref::ProductRef,
     quote_event::QuoteEvent, quote_event_data::QuoteEventData, quote_id::QuoteId,
@@ -343,8 +333,7 @@ pub use self::{
     subscription_details::SubscriptionDetails, subscription_event::SubscriptionEvent,
     subscription_event_data::SubscriptionEventData, subscription_fee::SubscriptionFee,
     subscription_fee_billing_period_enum::SubscriptionFeeBillingPeriodEnum,
-    subscription_id::SubscriptionId, subscription_list_response::SubscriptionListResponse,
-    subscription_status_enum::SubscriptionStatusEnum,
+    subscription_id::SubscriptionId, subscription_status_enum::SubscriptionStatusEnum,
     subscription_update_request::SubscriptionUpdateRequest,
     subscription_update_response::SubscriptionUpdateResponse, tax_breakdown_item::TaxBreakdownItem,
     tax_exemption_type::TaxExemptionType, term_rate::TermRate, tier_row::TierRow,
