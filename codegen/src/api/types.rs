@@ -844,7 +844,8 @@ impl FieldType {
                 if let Some(values) = obj.enum_values {
                     // Single-value enum: treat as a string constant (discriminator)
                     if values.len() == 1 {
-                        let serde_json::Value::String(value) = values.into_iter().next().unwrap() else {
+                        let serde_json::Value::String(value) = values.into_iter().next().unwrap()
+                        else {
                             bail!("unsupported: non-string constant as field type");
                         };
                         return Ok((Self::StringConst { value }, is_type_array_nullable));
@@ -857,7 +858,12 @@ impl FieldType {
                             _ => bail!("unsupported: non-string value in enum"),
                         })
                         .collect::<anyhow::Result<_>>()?;
-                    return Ok((Self::StringEnum { values: string_values }, is_type_array_nullable));
+                    return Ok((
+                        Self::StringEnum {
+                            values: string_values,
+                        },
+                        is_type_array_nullable,
+                    ));
                 }
 
                 match obj.format.as_deref() {
@@ -1187,7 +1193,10 @@ impl FieldType {
             | FieldType::UInt64
             | FieldType::Int32
             | FieldType::Int64 => "int".into(),
-            FieldType::Uri | FieldType::StringConst { .. } | FieldType::StringEnum { .. } | FieldType::String => "string".into(),
+            FieldType::Uri
+            | FieldType::StringConst { .. }
+            | FieldType::StringEnum { .. }
+            | FieldType::String => "string".into(),
             FieldType::DateTime => r#"\DateTimeImmutable"#.into(),
 
             FieldType::JsonObject
