@@ -1,0 +1,15 @@
+[workspace]
+members = ["meteroid-api", "meteroid-subscriber", "meteroid-console"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/Tasmanian-Cloud/meteroid-clients"
+
+[workspace.dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "sync"] }
+meteroid-api = { path = "meteroid-api" }
+meteroid-subscriber = { path = "meteroid-subscriber" }
+meteroid-rs = { path = "../rust" }
