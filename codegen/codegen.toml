@@ -30,6 +30,10 @@ output_dir = "java/src/main/java/com/meteroid"
 template = "templates/java/component_type.java.jinja"
 output_dir = "java/src/main/java/com/meteroid/models"
 
+# TypeScript generation via the custom templates is currently disabled because
+# the component type templates fail to render (inner_type/to_js issues). The
+# TypeScript SDK in ../typescript was generated with openapi-typescript-codegen
+# and is maintained separately until the custom templates are fixed.
 # [typescript]
 # [[typescript.task]]
 # template = "templates/typescript/api_resource.ts.jinja"

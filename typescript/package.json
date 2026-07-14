@@ -1,0 +1,42 @@
+{
+  "name": "@tasmanian.cloud/meteroid",
+  "version": "0.24.0",
+  "description": "TypeScript/JavaScript SDK for the Meteroid billing API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "test": "jest",
+    "lint": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tasmanian-Cloud/meteroid-clients.git",
+    "directory": "typescript"
+  },
+  "keywords": [
+    "meteroid",
+    "billing",
+    "subscriptions",
+    "usage",
+    "api",
+    "sdk"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "standardwebhooks": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "nock": "^14.0.0-beta.7",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.3.0"
+  }
+}
