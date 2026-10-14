@@ -19,4 +19,10 @@ target/
 .gradle/
 
 # Codegen script
-/.codegen-tmp/
+/.codegen-tmp/# Agent scratch - never commit
+.harness/
+.box/
+.cache/
+__pycache__/
+*.pyc
+*.log
